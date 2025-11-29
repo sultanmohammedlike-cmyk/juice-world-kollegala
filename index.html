@@ -3,47 +3,1475 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>juice world</title>
+    <title>Juice World Cafe | Kollegal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body {
+        * {
             margin: 0;
             padding: 0;
-            background-color: #f5f5f5;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            font-family: Arial, sans-serif;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
+
+        :root {
+            --primary: #00cc66;
+            --secondary: #ff9900;
+            --accent: #ff3366;
+            --dark: #121212;
+            --darker: #0a0a0a;
+            --light: #f5f5f5;
+            --gray: #2d2d2d;
+            --light-gray: #444;
+            --card-bg: #1e1e1e;
+        }
+
+        body {
+            background-color: var(--dark);
+            color: var(--light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
         .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--darker);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo i {
+            font-size: 2.5rem;
+            color: var(--primary);
+        }
+
+        .logo h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .contact-info {
+            text-align: right;
+        }
+
+        .contact-info p {
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+
+        .contact-info .phone {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                        url('https://images.justdial.com/original/JKY0fPdSQqe4j1Fqb63YzQwK60s=/business-photo/juice-world-kollegal-chamarajanagar-soda-frappe-juice-bar-2-89v4qy1.jpg');
+            background-size: cover;
+            background-position: center;
+            padding: 80px 0;
             text-align: center;
-            padding: 20px;
+            margin-bottom: 40px;
         }
-        
-        h1 {
-            color: #8B4513;
+
+        .hero h2 {
+            font-size: 3rem;
             margin-bottom: 20px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
         }
-        
-        .donkey-img {
-            max-width: 100%;
-            height: auto;
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto 30px;
+            color: #ddd;
+        }
+
+        /* Navigation Styles */
+        nav {
+            background-color: var(--gray);
+            padding: 15px 0;
+            margin-bottom: 30px;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .category-tabs {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+            scrollbar-width: thin;
+        }
+
+        .category-tabs::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .category-tabs::-webkit-scrollbar-thumb {
+            background-color: var(--primary);
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-            border: 5px solid #8B4513;
         }
-        
-        .caption {
+
+        .category-tab {
+            padding: 10px 20px;
+            background-color: var(--light-gray);
+            border-radius: 30px;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .category-tab:hover, .category-tab.active {
+            background-color: var(--primary);
+            color: var(--dark);
+        }
+
+        /* Main Content Styles */
+        main {
+            padding: 30px 0;
+            min-height: calc(100vh - 200px);
+        }
+
+        .category-section {
+            display: none;
+            margin-bottom: 40px;
+        }
+
+        .category-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .category-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .category-title {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .category-image {
+            width: 100%;
+            height: 300px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+
+        .menu-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+
+        .menu-item {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .item-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .item-price {
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .subcategory {
+            margin: 30px 0 20px;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--secondary);
+            border-bottom: 1px solid var(--light-gray);
+            padding-bottom: 10px;
+        }
+
+        /* Footer Styles */
+        footer {
+            background-color: var(--darker);
+            padding: 50px 0 20px;
+            margin-top: 50px;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .footer-section h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+
+        .footer-section p {
+            margin-bottom: 10px;
+            color: #aaa;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
             margin-top: 15px;
-            font-style: italic;
-            color: #666;
+        }
+
+        .social-icons a {
+            color: #aaa;
+            font-size: 1.2rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            color: var(--primary);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid var(--light-gray);
+            color: #777;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .contact-info {
+                text-align: center;
+            }
+            
+            .nav-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .category-tabs {
+                width: 100%;
+                justify-content: flex-start;
+            }
+            
+            .hero h2 {
+                font-size: 2.2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .category-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+            
+            .menu-list {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>ಏನ್ರಿ ಮೀಡಿಯಾ, ಏನ್ರಿ ಕಿತ್ಕೋತೀರಾ ನಮ್ದು?</h1>
-    </div>
+    <!-- Header Section -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <i class="fas fa-glass-cheers"></i>
+                <h1>Juice World Cafe</h1>
+            </div>
+            <div class="contact-info">
+                <p>Kollegal, Opp. of MGSV Signal</p>
+                <p class="phone">+91 88674 32462</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h2>Delicious Food & Refreshing Drinks</h2>
+            <p>Experience the perfect blend of flavors with our wide range of beverages, pizzas, burgers, and more!</p>
+        </div>
+    </section>
+
+    <!-- Navigation Section -->
+    <nav id="menu">
+        <div class="container nav-container">
+            <div class="category-tabs">
+                <div class="category-tab active" data-category="beverages">
+                    <i class="fas fa-coffee"></i> Beverages
+                </div>
+                <div class="category-tab" data-category="milkshakes">
+                    <i class="fas fa-blender"></i> Milkshakes
+                </div>
+                <div class="category-tab" data-category="momos">
+                    <i class="fas fa-dumpling"></i> Momos
+                </div>
+                <div class="category-tab" data-category="pizza">
+                    <i class="fas fa-pizza-slice"></i> Pizza
+                </div>
+                <div class="category-tab" data-category="burgers">
+                    <i class="fas fa-hamburger"></i> Burgers
+                </div>
+                <div class="category-tab" data-category="rolls">
+                    <i class="fas fa-bread-slice"></i> Rolls
+                </div>
+                <div class="category-tab" data-category="snacks">
+                    <i class="fas fa-utensils"></i> Snacks
+                </div>
+                <div class="category-tab" data-category="falooda">
+                    <i class="fas fa-ice-cream"></i> Falooda & Ice Cream
+                </div>
+                <div class="category-tab" data-category="juices">
+                    <i class="fas fa-glass-whiskey"></i> Juices & Smoothies
+                </div>
+                <div class="category-tab" data-category="lime">
+                    <i class="fas fa-lemon"></i> Lime Zone
+                </div>
+                <div class="category-tab" data-category="soda">
+                    <i class="fas fa-glass"></i> Soda's
+                </div>
+                <div class="category-tab" data-category="smoothies">
+                    <i class="fas fa-blender"></i> Smoothies
+                </div>
+                <div class="category-tab" data-category="malba">
+                    <i class="fas fa-apple-alt"></i> Malba
+                </div>
+                <div class="category-tab" data-category="sundae">
+                    <i class="fas fa-ice-cream"></i> Sundae
+                </div>
+                <div class="category-tab" data-category="lassi">
+                    <i class="fas fa-glass-whiskey"></i> Lassi
+                </div>
+                <div class="category-tab" data-category="mocktails">
+                    <i class="fas fa-cocktail"></i> Mocktails
+                </div>
+                <div class="category-tab" data-category="sandwiches">
+                    <i class="fas fa-bread-slice"></i> Sandwiches
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Section -->
+    <main>
+        <div class="container">
+            <!-- Beverages Section -->
+            <section id="beverages" class="category-section active">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <i class="fas fa-coffee"></i>
+                    </div>
+                    <h2 class="category-title">Beverages</h2>
+                </div>
+                <div class="category-image" style="background-image: url('https://images.pexels.com/photos/103566/pexels-photo-103566.jpeg');"></div>
+                <div class="menu-list">
+                    <div class="menu-item">
+                        <div class="item-name">Boost Magic</div>
+                        <div class="item-price">₹80</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Oreo Shake</div>
+                        <div class="item-price">₹80</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Kitkat Shake</div>
+                        <div class="item-price">₹80</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Cold Coffee</div>
+                        <div class="item-price">₹80</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Milkshakes Section -->
+            <section id="milkshakes" class="category-section">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <i class="fas fa-blender"></i>
+                    </div>
+                    <h2 class="category-title">Milkshakes</h2>
+                </div>
+                <div class="category-image" style="background-image: url('https://images.unsplash.com/photo-1572490122747-3968b75cc699?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80');"></div>
+                
+                <div class="subcategory">Ice Cream Milk Shakes</div>
+                <div class="menu-list">
+                    <div class="menu-item">
+                        <div class="item-name">Vanilla</div>
+                        <div class="item-price">₹80</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Strawberry</div>
+                        <div class="item-price">₹80</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Pista</div>
+                        <div class="item-price">₹80</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Butter Scotch</div>
+                        <div class="item-price">₹80</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Black Lady</div>
+                        <div class="item-price">₹80</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Mango</div>
+                        <div class="item-price">₹80</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Delight</div>
+                        <div class="item-price">₹90</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Kulfi</div>
+                        <div class="item-price">₹90</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Chocolate</div>
+                        <div class="item-price">₹80</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Scottish Crunch</div>
+                        <div class="item-price">₹80</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Lovely Choco</div>
+                        <div class="item-price">₹90</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Spanish Lover</div>
+                        <div class="item-price">₹90</div>
+                    </div>
+                </div>
+                
+                <div class="subcategory">Dry Fruits Shakes</div>
+                <div class="menu-list">
+                    <div class="menu-item">
+                        <div class="item-name">Badam Shake</div>
+                        <div class="item-price">₹80</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Cashew Shake</div>
+                        <div class="item-price">₹80</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Anjeer Shake</div>
+                        <div class="item-price">₹80</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Pista Shake</div>
+                        <div class="item-price">₹80</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Mixed Dry Fruits</div>
+                        <div class="item-price">₹90</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Dates Shake</div>
+                        <div class="item-price">₹80</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Cherry Shake</div>
+                        <div class="item-price">₹80</div>
+                    </div>
+                </div>
+                
+                <div class="subcategory">Special Shakes</div>
+                <div class="menu-list">
+                    <div class="menu-item">
+                        <div class="item-name">Brown Booster</div>
+                        <div class="item-price">₹80</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Omani</div>
+                        <div class="item-price">₹80</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Fruit Angel</div>
+                        <div class="item-price">₹80</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Arabian Harlot</div>
+                        <div class="item-price">₹80</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Wild Sagita</div>
+                        <div class="item-price">₹80</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Melpaam</div>
+                        <div class="item-price">₹90</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Mayo Affair</div>
+                        <div class="item-price">₹90</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Momos Section -->
+            <section id="momos" class="category-section">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <i class="fas fa-dumpling"></i>
+                    </div>
+                    <h2 class="category-title">Momos (Steamed/Fried)</h2>
+                </div>
+                <div class="category-image" style="background-image: url('https://images.unsplash.com/photo-1563245372-f21724e3856d');"></div>
+                <div class="menu-list">
+                    <div class="menu-item">
+                        <div class="item-name">Veg Momos</div>
+                        <div class="item-price">₹90</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Paneer Momos</div>
+                        <div class="item-price">₹100</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Schezwan Momos</div>
+                        <div class="item-price">₹120</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Chicken Momos</div>
+                        <div class="item-price">₹100</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Mushroom Momos</div>
+                        <div class="item-price">₹120</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Cheese Corn Momos</div>
+                        <div class="item-price">₹120</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Pizza Section -->
+            <section id="pizza" class="category-section">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <i class="fas fa-pizza-slice"></i>
+                    </div>
+                    <h2 class="category-title">Pizza</h2>
+                </div>
+                <div class="category-image" style="background-image: url('https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80');"></div>
+                
+                <div class="subcategory">Veg Pizza</div>
+                <div class="menu-list">
+                    <div class="menu-item">
+                        <div class="item-name">Cheese Pizza</div>
+                        <div class="item-price">₹150</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Mushroom Pizza</div>
+                        <div class="item-price">₹180</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Paneer Pizza</div>
+                        <div class="item-price">₹180</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Mixed Veg Pizza</div>
+                        <div class="item-price">₹170</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Sweet Corn Pizza</div>
+                        <div class="item-price">₹170</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Veg Paradise</div>
+                        <div class="item-price">₹190</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Veg Delight</div>
+                        <div class="item-price">₹190</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Mexican Pizza</div>
+                        <div class="item-price">₹190</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Cheese & Tomato</div>
+                        <div class="item-price">₹170</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Juice World Special</div>
+                        <div class="item-price">₹200</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Corn Paneer Pizza</div>
+                        <div class="item-price">₹180</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Mushroom Corn Pizza</div>
+                        <div class="item-price">₹180</div>
+                    </div>
+                </div>
+
+                <div class="subcategory">Non Veg Pizza</div>
+                <div class="menu-list">
+                    <div class="menu-item">
+                        <div class="item-name">Chicken Pizza</div>
+                        <div class="item-price">₹180</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Chicken Supreme</div>
+                        <div class="item-price">₹190</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Chicken Delight</div>
+                        <div class="item-price">₹200</div>
+                    </div>
+                </div>
+                
+                <div class="subcategory">Extras</div>
+                <div class="menu-list">
+                    <div class="menu-item">
+                        <div class="item-name">Extra Cheese</div>
+                        <div class="item-price">₹40</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Burgers Section -->
+            <section id="burgers" class="category-section">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <i class="fas fa-hamburger"></i>
+                    </div>
+                    <h2 class="category-title">Burgers</h2>
+                </div>
+                <div class="category-image" style="background-image: url('https://images.unsplash.com/photo-1571091718767-18b5b1457add');"></div>
+                
+                <div class="subcategory">Veg Burgers</div>
+                <div class="menu-list">
+                    <div class="menu-item">
+                        <div class="item-name">Veg Burger</div>
+                        <div class="item-price">₹70</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Nuggets Burger</div>
+                        <div class="item-price">₹80</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Cheese Burger</div>
+                        <div class="item-price">₹80</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Paneer Burger</div>
+                        <div class="item-price">₹80</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Hawaiian Burger</div>
+                        <div class="item-price">₹80</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Club Burger</div>
+                        <div class="item-price">₹100</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Juice World Special</div>
+                        <div class="item-price">₹130</div>
+                    </div>
+                </div>
+                
+                <div class="subcategory">Non Veg Burgers</div>
+                <div class="menu-list">
+                    <div class="menu-item">
+                        <div class="item-name">Chicken Burger</div>
+                        <div class="item-price">₹80</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Chicken with Cheese</div>
+                        <div class="item-price">₹90</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Zinger Burger</div>
+                        <div class="item-price">₹100</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Special Club Burger</div>
+                        <div class="item-price">₹130</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Rolls Section -->
+            <section id="rolls" class="category-section">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <i class="fas fa-bread-slice"></i>
+                    </div>
+                    <h2 class="category-title">Rolls</h2>
+                </div>
+                <div class="category-image" style="background-image: url('https://images.pexels.com/photos/461198/pexels-photo-461198.jpeg');"></div>
+                
+                <div class="subcategory">Veg Rolls</div>
+                <div class="menu-list">
+                    <div class="menu-item">
+                        <div class="item-name">Veg Roll</div>
+                        <div class="item-price">₹60</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Paneer Roll</div>
+                        <div class="item-price">₹70</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Mushroom Roll</div>
+                        <div class="item-price">₹70</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Cheese Roll</div>
+                        <div class="item-price">₹70</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Arabian Roll</div>
+                        <div class="item-price">₹80</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Nuggets Roll</div>
+                        <div class="item-price">₹80</div>
+                    </div>
+                </div>
+                
+                <div class="subcategory">Non Veg Rolls</div>
+                <div class="menu-list">
+                    <div class="menu-item">
+                        <div class="item-name">Chicken Roll</div>
+                        <div class="item-price">₹80</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Zinger Roll</div>
+                        <div class="item-price">₹90</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Chicken Nuggets Roll</div>
+                        <div class="item-price">₹90</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Chicken Cheese Roll</div>
+                        <div class="item-price">₹90</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Arabian Chicken Roll</div>
+                        <div class="item-price">₹100</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Snacks Section -->
+            <section id="snacks" class="category-section">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <h2 class="category-title">Snacks & Fries</h2>
+                </div>
+                <div class="category-image" style="background-image: url('https://images.unsplash.com/photo-1626645738196-c2a7c87a8f58?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80');"></div>
+                <div class="menu-list">
+                    <div class="menu-item">
+                        <div class="item-name">Chicken Strips</div>
+                        <div class="item-price">₹160</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Chicken Popcorn</div>
+                        <div class="item-price">₹100</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Veg Loaded Fries</div>
+                        <div class="item-price">₹150</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Chicken Loaded Fries</div>
+                        <div class="item-price">₹160</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Sizzley Brownie</div>
+                        <div class="item-price">₹140</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Falooda & Ice Cream Section -->
+            <section id="falooda" class="category-section">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <i class="fas fa-ice-cream"></i>
+                    </div>
+                    <h2 class="category-title">Falooda & Ice Cream</h2>
+                </div>
+                <div class="category-image" style="background-image: url('https://images.pexels.com/photos/18646641/pexels-photo-18646641.jpeg');"></div>
+                
+                <div class="subcategory">Falooda</div>
+                <div class="menu-list">
+                    <div class="menu-item">
+                        <div class="item-name">Mini Falooda</div>
+                        <div class="item-price">₹90</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Royal Falooda</div>
+                        <div class="item-price">₹130</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Nutties Falooda</div>
+                        <div class="item-price">₹140</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Jelly Falooda</div>
+                        <div class="item-price">₹110</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Juice World Special</div>
+                        <div class="item-price">₹170</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Special Falooda</div>
+                        <div class="item-price">₹170</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Fruity Falooda</div>
+                        <div class="item-price">₹140</div>
+                    </div>
+                </div>
+
+                <div class="subcategory">Ice Cream Special</div>
+                <div class="menu-list">
+                    <div class="menu-item">
+                        <div class="item-name">Fruit Salad</div>
+                        <div class="item-price">₹60</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Dry Fruit Salad</div>
+                        <div class="item-price">₹100</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Jelly Belly</div>
+                        <div class="item-price">₹100</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Fruities Special</div>
+                        <div class="item-price">₹100</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Gudbud</div>
+                        <div class="item-price">₹80</div>
+                    </div>
+                </div>
+                
+                <div class="subcategory">Scoops</div>
+                <div class="menu-list">
+                    <div class="menu-item">
+                        <div class="item-name">Vanilla Scoop</div>
+                        <div class="item-price">₹40</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Strawberry Scoop</div>
+                        <div class="item-price">₹40</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Pista Scoop</div>
+                        <div class="item-price">₹40</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Butterscotch Scoop</div>
+                        <div class="item-price">₹50</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Chocolate Scoop</div>
+                        <div class="item-price">₹50</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Black Current Scoop</div>
+                        <div class="item-price">₹50</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Mango Scoop</div>
+                        <div class="item-price">₹50</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Juices & Smoothies Section -->
+            <section id="juices" class="category-section">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <i class="fas fa-glass-whiskey"></i>
+                    </div>
+                    <h2 class="category-title">Juices & Smoothies</h2>
+                </div>
+                <div class="category-image" style="background-image: url('https://images.unsplash.com/photo-1613478223719-2ab802602423?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80');"></div>
+                
+                <div class="subcategory">Fresh Juice</div>
+                <div class="menu-list">
+                    <div class="menu-item">
+                        <div class="item-name">Orange Juice</div>
+                        <div class="item-price">₹40</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Musambi Juice</div>
+                        <div class="item-price">₹40</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Grape Juice</div>
+                        <div class="item-price">₹50</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Pineapple Juice</div>
+                        <div class="item-price">₹50</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Carrot Juice</div>
+                        <div class="item-price">₹50</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Water Melon Juice</div>
+                        <div class="item-price">₹40</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Papaya Juice</div>
+                        <div class="item-price">₹40</div>
+                    </div>
+                </div>
+
+                <div class="subcategory">Milk Shakes</div>
+                <div class="menu-list">
+                    <div class="menu-item">
+                        <div class="item-name">Chikku Shake</div>
+                        <div class="item-price">₹60</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Banana Shake</div>
+                        <div class="item-price">₹60</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Papaya Shake</div>
+                        <div class="item-price">₹60</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Kharbooja Shake</div>
+                        <div class="item-price">₹50</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Sharjah Shake</div>
+                        <div class="item-price">₹60</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Mango Shake</div>
+                        <div class="item-price">₹60</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Apple Shake</div>
+                        <div class="item-price">₹60</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Butter Fruit Shake</div>
+                        <div class="item-price">₹70</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Pomegranate Shake</div>
+                        <div class="item-price">₹60</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Kiwi Shake</div>
+                        <div class="item-price">₹70</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Litchi Crush</div>
+                        <div class="item-price">₹60</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Rose Milk Crush</div>
+                        <div class="item-price">₹60</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Blue Berry Crush</div>
+                        <div class="item-price">₹70</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Cocktail Shake</div>
+                        <div class="item-price">₹70</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Lime Zone Section -->
+            <section id="lime" class="category-section">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <i class="fas fa-lemon"></i>
+                    </div>
+                    <h2 class="category-title">Lime Zone</h2>
+                </div>
+                <div class="category-image" style="background-image: url('https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80');"></div>
+                <div class="menu-list">
+                    <div class="menu-item">
+                        <div class="item-name">Fresh Lime</div>
+                        <div class="item-price">₹20</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Mint Lime</div>
+                        <div class="item-price">₹30</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Ginger Lime</div>
+                        <div class="item-price">₹30</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Masala Lime</div>
+                        <div class="item-price">₹30</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Grape Lime</div>
+                        <div class="item-price">₹40</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Soda's Section -->
+            <section id="soda" class="category-section">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <i class="fas fa-glass"></i>
+                    </div>
+                    <h2 class="category-title">Soda's</h2>
+                </div>
+                <div class="category-image" style="background-image: url('https://images.unsplash.com/photo-1544145945-f90425340c7e?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80');"></div>
+                <div class="menu-list">
+                    <div class="menu-item">
+                        <div class="item-name">Lime Soda</div>
+                        <div class="item-price">₹30</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Ginger Lime Soda</div>
+                        <div class="item-price">₹50</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Masala Soda</div>
+                        <div class="item-price">₹40</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Blue Lime Soda</div>
+                        <div class="item-price">₹50</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Chilli Soda</div>
+                        <div class="item-price">₹40</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Orange Soda</div>
+                        <div class="item-price">₹50</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Smoothies Section -->
+            <section id="smoothies" class="category-section">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <i class="fas fa-blender"></i>
+                    </div>
+                    <h2 class="category-title">Smoothies</h2>
+                </div>
+                <div class="category-image" style="background-image: url('https://images.unsplash.com/photo-1572490122747-3968b75cc699?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80');"></div>
+                <div class="menu-list">
+                    <div class="menu-item">
+                        <div class="item-name">Chocolate Banana</div>
+                        <div class="item-price">₹80</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Strawberry Banana</div>
+                        <div class="item-price">₹80</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Mango Banana</div>
+                        <div class="item-price">₹80</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Regular Smoothie</div>
+                        <div class="item-price">₹80</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Malba Section -->
+            <section id="malba" class="category-section">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <i class="fas fa-apple-alt"></i>
+                    </div>
+                    <h2 class="category-title">Malba</h2>
+                </div>
+                <div class="category-image" style="background-image: url('https://images.pexels.com/photos/6063291/pexels-photo-6063291.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260');"></div>
+                <div class="menu-list">
+                    <div class="menu-item">
+                        <div class="item-name">Apple Malba</div>
+                        <div class="item-price">₹90</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Chikku Malba</div>
+                        <div class="item-price">₹90</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Mango Malba</div>
+                        <div class="item-price">₹90</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Papaya Malba</div>
+                        <div class="item-price">₹90</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sundae Section -->
+            <section id="sundae" class="category-section">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <i class="fas fa-ice-cream"></i>
+                    </div>
+                    <h2 class="category-title">Sundae</h2>
+                </div>
+                <div class="category-image" style="background-image: url('https://images.pexels.com/photos/103566/pexels-photo-103566.jpeg');"></div>
+                <div class="menu-list">
+                    <div class="menu-item">
+                        <div class="item-name">Choco Fantasy</div>
+                        <div class="item-price">₹100</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Titanic</div>
+                        <div class="item-price">₹120</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Snowman</div>
+                        <div class="item-price">₹100</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Scotman</div>
+                        <div class="item-price">₹100</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Banana Split</div>
+                        <div class="item-price">₹120</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Death by Chocolate</div>
+                        <div class="item-price">₹120</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Lassi Section -->
+            <section id="lassi" class="category-section">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <i class="fas fa-glass-whiskey"></i>
+                    </div>
+                    <h2 class="category-title">Lassi</h2>
+                </div>
+                <div class="category-image" style="background-image: url('https://images.pexels.com/photos/3727250/pexels-photo-3727250.jpeg');"></div>
+                <div class="menu-list">
+                    <div class="menu-item">
+                        <div class="item-name">Sweet Lassi</div>
+                        <div class="item-price">₹70</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Salt Lassi</div>
+                        <div class="item-price">₹70</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Spicy Lassi</div>
+                        <div class="item-price">₹70</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Mango Lassi</div>
+                        <div class="item-price">₹80</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Strawberry Lassi</div>
+                        <div class="item-price">₹80</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Choco Lassi</div>
+                        <div class="item-price">₹80</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Fruit Lassi</div>
+                        <div class="item-price">₹80</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Mocktails Section -->
+            <section id="mocktails" class="category-section">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <i class="fas fa-cocktail"></i>
+                    </div>
+                    <h2 class="category-title">Mocktails</h2>
+                </div>
+                <div class="category-image" style="background-image: url('https://images.pexels.com/photos/128242/pexels-photo-128242.jpeg');"></div>
+                <div class="menu-list">
+                    <div class="menu-item">
+                        <div class="item-name">Blue Curacao</div>
+                        <div class="item-price">₹80</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Mint Mojito</div>
+                        <div class="item-price">₹80</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Pina Colada</div>
+                        <div class="item-price">₹80</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Rose Kiss</div>
+                        <div class="item-price">₹80</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Green Apple</div>
+                        <div class="item-price">₹90</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Watermelon</div>
+                        <div class="item-price">₹90</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Passion Fruit</div>
+                        <div class="item-price">₹90</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sandwiches Section -->
+            <section id="sandwiches" class="category-section">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <i class="fas fa-bread-slice"></i>
+                    </div>
+                    <h2 class="category-title">Sandwiches</h2>
+                </div>
+                <div class="category-image" style="background-image: url('https://images.pexels.com/photos/1600711/pexels-photo-1600711.jpeg');"></div>
+                
+                <div class="subcategory">Veg Sandwiches</div>
+                <div class="menu-list">
+                    <div class="menu-item">
+                        <div class="item-name">Veg Grill</div>
+                        <div class="item-price">₹70</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Cheese Sandwich</div>
+                        <div class="item-price">₹80</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Mushroom Sandwich</div>
+                        <div class="item-price">₹80</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Paneer Sandwich</div>
+                        <div class="item-price">₹80</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Cheese Capsicum</div>
+                        <div class="item-price">₹80</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Tomato Grill</div>
+                        <div class="item-price">₹70</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Bombai Sandwich</div>
+                        <div class="item-price">₹90</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Arabian Sandwich</div>
+                        <div class="item-price">₹90</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Sweet Corn Sandwich</div>
+                        <div class="item-price">₹80</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Juice World Special</div>
+                        <div class="item-price">₹130</div>
+                    </div>
+                </div>
+                
+                <div class="subcategory">Non Veg Sandwiches</div>
+                <div class="menu-list">
+                    <div class="menu-item">
+                        <div class="item-name">Chicken Sandwich</div>
+                        <div class="item-price">₹90</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Chicken with Cheese</div>
+                        <div class="item-price">₹100</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Egg Sandwich</div>
+                        <div class="item-price">₹90</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Zinger Sandwich</div>
+                        <div class="item-price">₹120</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name">Special Club Sandwich</div>
+                        <div class="item-price">₹140</div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer Section -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Juice World Cafe</h3>
+                    <p>Your one-stop destination for delicious food and refreshing beverages in Kollegal.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact Info</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Kollegal, Opp. of MGSV Signal</p>
+                    <p><i class="fas fa-phone"></i> +91 98954 03121</p>
+                    <p><i class="fas fa-clock"></i> Open: 10:00 AM - 11:00 PM</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <p><a href="#beverages" class="footer-link">Beverages</a></p>
+                    <p><a href="#milkshakes" class="footer-link">Milkshakes</a></p>
+                    <p><a href="#momos" class="footer-link">Momos</a></p>
+                    <p><a href="#pizza" class="footer-link">Pizza</a></p>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 Juice World Cafe. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Category Tab Functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const categoryTabs = document.querySelectorAll('.category-tab');
+            const categorySections = document.querySelectorAll('.category-section');
+            
+            categoryTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Remove active class from all tabs and sections
+                    categoryTabs.forEach(t => t.classList.remove('active'));
+                    categorySections.forEach(s => s.classList.remove('active'));
+                    
+                    // Add active class to clicked tab
+                    this.classList.add('active');
+                    
+                    // Show corresponding section
+                    const categoryId = this.getAttribute('data-category');
+                    document.getElementById(categoryId).classList.add('active');
+                    
+                    // Scroll to the top of the section
+                    window.scrollTo({
+                        top: document.getElementById('menu').offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
 </body>
-</html>
+    </html>
